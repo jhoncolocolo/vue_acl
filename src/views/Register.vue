@@ -26,7 +26,7 @@ export default {
     const router = useRouter();
     const submit = async () => {
       console.log(data);
-      await fetch('http://localhost:8000/api/register', {
+      await fetch(process.env.VUE_APP_API_URL+'/api/register', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)

@@ -25,14 +25,14 @@ export default createStore({
         setUserName: ({commit}: { commit: Commit }, user_name: string) => commit('SET_USERNAME', user_name),
         setAuthRoute: ({commit}: { commit: Commit }, auth_route: string) => commit('SET_AUTHROUTE', auth_route),
         async logout({commit},credentials){
-            await fetch('http://localhost:8000/api/logout', {
+            await fetch(process.env.VUE_APP_API_URL+'/api/logout', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include',
-            }).then(data => {
+                headers: { authorization: "Bearer " + localStorage.getItem('token') }
+                }).then(data => {
                 commit("SET_AUTH", false);
                 commit("SET_USER", null);
                 commit("SET_PERMISSIONS" , null);
+                window.localStorage.clear();
                // console.log("Entre a asigar");
             }).catch(()=>{
                 commit("SET_AUTH", false);
@@ -43,10 +43,9 @@ export default createStore({
         getUser({commit}){
 
             return new Promise((resolve, reject) => {
-                 fetch('http://localhost:8000/api/user', {
-                        headers: {'Content-Type': 'application/json'},
-                        credentials: 'include'
-                      })
+                 fetch(process.env.VUE_APP_API_URL+'/api/user', {
+                        headers: { authorization: "Bearer " + localStorage.getItem('token') }
+                })
                   .then((response) => {
                       if (response.status != 200) {
                         commit("SET_AUTH", false);

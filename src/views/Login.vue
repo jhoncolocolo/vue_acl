@@ -26,12 +26,23 @@ export default {
     const router = useRouter();
 
     const submit = async () => {
-      await fetch('http://localhost:8000/api/login', {
+      await fetch(process.env.VUE_APP_API_URL+'/api/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
         body: JSON.stringify(data)
-      });
+      }).then((response) => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText);
+            }    
+            return response.json();
+        })
+        .then(data => {
+            localStorage.setItem('token',data.message);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
       await router.push('/');
     }

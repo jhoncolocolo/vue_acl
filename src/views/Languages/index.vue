@@ -44,9 +44,8 @@ export default {
     },
     methods:{
          showLanguages(){
-          fetch('http://localhost:8000/api/languages', {
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include'
+          fetch(process.env.VUE_APP_API_URL+'/api/languages', {
+                headers: { authorization: "Bearer " + localStorage.getItem('token') }
               })
           .then((response) => {
               if (response.status != 200) {
