@@ -58,7 +58,10 @@ export default {
         create(){
             fetch(process.env.VUE_APP_API_URL+'/api/languages', {
                 method:"POST",
-                headers: { authorization: "Bearer " + localStorage.getItem('token') },
+                headers: { 
+                    authorization: "Bearer " + localStorage.getItem('token'),
+                    "Content-Type": "application/json",   
+                },
                 body:JSON.stringify(this.language)
                 })
             .then((response) => {

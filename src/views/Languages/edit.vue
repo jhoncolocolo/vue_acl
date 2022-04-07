@@ -73,10 +73,12 @@ export default {
               });
         },
         updateLanguage(){
-            fetch(`http://localhost:8000/api/languages/${this.$route.params.id}`, {
+            fetch(`${process.env.VUE_APP_API_URL}/api/languages/${this.$route.params.id}`, {
                 method:"PUT",
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include',
+                headers: { 
+                    authorization: "Bearer " + localStorage.getItem('token'),
+                    "Content-Type": "application/json",   
+                },
                 body:JSON.stringify(this.language)
                 })
             .then((response) => {

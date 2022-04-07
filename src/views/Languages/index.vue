@@ -60,9 +60,9 @@ export default {
         async deleteLanguage(id){
             if(confirm("¿Confirm That Tou Wish Delete This Registry?")){
                 try {
-                  await fetch(`http://localhost:8000/api/languages/${id}`, {
-                    headers: {'Content-Type': 'application/json'},
-                    credentials: 'include'
+                  await fetch(`${process.env.VUE_APP_API_URL}/api/languages/${id}`, {
+                     method:"DELETE",
+                     headers: { authorization: "Bearer " + localStorage.getItem('token') }
                   });
                   await this.showLanguages()
                 } catch (e) {
